@@ -1,1 +1,3 @@
 # firstHorrorGame
+
+This is my first personal game on Unity. I want to create survival horror game with shooter elements. And here I wanna share my path to creating this game...
