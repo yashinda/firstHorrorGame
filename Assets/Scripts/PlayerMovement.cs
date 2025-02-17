@@ -5,13 +5,12 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private Vector3 playerVelocity;
     public bool playerOnGround;
+    public Transform groundCheck;
+    public LayerMask groundLayerMask;
+    public float groundCheckRadius;
     public float moveSpeed = 3.0f;
     public float jumpHeight = 2.0f;
     public float gravityValue = -9.81f;
-    private float horizontal;
-    private float vertical;
-    private bool jump;
-
 
     void Start()
     {
@@ -20,17 +19,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-        jump = Input.GetButton("Jump");
-
-        playerOnGround = controller.isGrounded;
-
         CharMovement();
     }
 
     private void CharMovement()
     {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        playerOnGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayerMask);
+
         if (playerOnGround && playerVelocity.y < 0)
         {
             playerVelocity.y = 0;

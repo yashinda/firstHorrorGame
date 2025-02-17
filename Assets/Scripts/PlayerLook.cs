@@ -5,23 +5,20 @@ public class PlayerLook : MonoBehaviour
     private Camera playerCamera;
     public float sensitivity = 3.0f;
     public float maxYAngle = 70.0f;
-    private float mouseX;
-    private float mouseY;
     private float rotationMouseX;
     public Transform playerBody;
-
 
     void Start()
     {
         playerCamera = GetComponent<Camera>();
-        
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
    
     void Update()
     {
-        mouseX = Input.GetAxis("Mouse X");
-        mouseY = Input.GetAxis("Mouse Y");
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
 
         rotationMouseX -= mouseY * sensitivity;
         rotationMouseX = Mathf.Clamp(rotationMouseX, -maxYAngle, maxYAngle);
