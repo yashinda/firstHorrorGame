@@ -14,13 +14,6 @@ public class DoorInteraction : Interactable
         Debug.Log(textMessage);
 
         doorIsOpen = !doorIsOpen;
-        if (doorIsOpen)
-        {
-            doorAnimator.SetBool("doorIsOpen", true);
-        }
-        else
-        {
-            doorAnimator.SetBool("doorIsOpen", false);
-        }
+        doorAnimator.SetBool("doorIsOpen", doorIsOpen);
     }
 }
