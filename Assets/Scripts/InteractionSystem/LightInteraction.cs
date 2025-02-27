@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class LightInteraction : MonoBehaviour
+public class LightInteraction : Interactable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Light lightSource;
+    private bool lightEnable;
+
+    private void Start()
     {
-        
+        lightSource = GetComponent<Light>();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Interact()
     {
-        
+        lightEnable = !lightEnable;
+
+        lightSource.enabled = lightEnable;
     }
 }
