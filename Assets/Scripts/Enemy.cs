@@ -1,26 +1,26 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 20f;
     [SerializeField] private Transform Player;
     [SerializeField] private float moveSpeed = 3f;
-    [SerializeField] private float maxDistanceChase = 25f;
     [SerializeField] private float minDistanceChase = 10f;
+    [SerializeField] private NavMeshAgent enemyAgent;
     private bool isDeath = false;
-
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, Player.transform.position) <= minDistanceChase)
+        float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
+
+        if (distanceToPlayer <= minDistanceChase)
         {
-            transform.LookAt(Player.transform);
-            transform.position = Vector3.MoveTowards(transform.position, 
-                Player.transform.position, moveSpeed *  Time.deltaTime);
+            enemyAgent.SetDestination(Player.transform.position);
         }
-        else if (Vector3.Distance(transform.position, Player.transform.position) >= maxDistanceChase)
+        else
         {
-            transform.rotation = Quaternion.identity;
+            enemyAgent.ResetPath();
         }
     }
 
@@ -30,16 +30,7 @@ public class Enemy : MonoBehaviour
         if (maxHealth <= 0)
         {
             isDeath = true;
-            Debug.Log("Враг умер");
             Destroy(gameObject);
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("Player"))
-        {
-            Debug.Log("Нанесён урон");
         }
     }
 }
