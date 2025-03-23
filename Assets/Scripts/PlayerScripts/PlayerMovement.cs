@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 3.0f;
     public float jumpHeight = 2.0f;
     public float gravityValue = -9.81f;
+    public InventoryManager inventoryManager;
 
     void Start()
     {
@@ -24,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void CharMovement()
     {
+        if (inventoryManager.isOpen)
+            return;
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 

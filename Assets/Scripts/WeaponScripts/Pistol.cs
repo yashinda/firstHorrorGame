@@ -10,6 +10,7 @@ public class Pistol : MonoBehaviour
     [SerializeField] private int bulletsInInventory = 100;
     [SerializeField] private int maxBulletsInMag = 9;
     [SerializeField] private int maxBulletsInInventory = 100;
+    public InventoryManager inventoryManager;
 
     private void Start()
     {
@@ -18,7 +19,7 @@ public class Pistol : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && bulletsInMag > 0)
+        if (Input.GetMouseButtonDown(0) && bulletsInMag > 0 && !inventoryManager.isOpen)
         {
             Shoot();
         }
@@ -61,7 +62,7 @@ public class Pistol : MonoBehaviour
         bulletsInInventory -= reloadAmount;
     }
 
-    private void AddAmmo(int ammoAmount)
+    public void AddAmmo(int ammoAmount)
     {
         bulletsInInventory += ammoAmount;
         if (bulletsInInventory > maxBulletsInInventory)

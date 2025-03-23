@@ -8,7 +8,7 @@ public class InventoryManager : MonoBehaviour
     public List<InventorySlot> slots = new List<InventorySlot>();
     public GameObject UIPanel;
     [SerializeField] private Camera playerCamera;
-    private bool isOpen = false;
+    public bool isOpen = false;
 
     private void Awake()
     {
@@ -32,17 +32,26 @@ public class InventoryManager : MonoBehaviour
         {
             isOpen = !isOpen;
             if (isOpen)
+            {
                 UIPanel.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }    
+                
             else
-                UIPanel.SetActive(false); 
+            {
+                UIPanel.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
 
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 3.0f))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Physics.Raycast(ray, out hit, 3.0f))
             {
                 if (hit.collider.gameObject.GetComponent<Item>() != null)
                 {
@@ -51,7 +60,7 @@ public class InventoryManager : MonoBehaviour
 
                     Destroy(hit.collider.gameObject);
                 }
-            }       
+            }
         }
     }
 
@@ -59,11 +68,11 @@ public class InventoryManager : MonoBehaviour
     {
         foreach(InventorySlot slot in slots)
         {
-            if (slot.item == _item)
+            if (slot.item == _item && slot.amount + _amount <= _item.maximumAmount)
             {
                 slot.amount += _amount;
                 slot.itemAmountText.text = slot.amount.ToString();
-                return;
+                break;
             }
             else if (slot.isEmpty == true)
             {
