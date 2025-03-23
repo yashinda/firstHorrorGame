@@ -7,6 +7,7 @@ public class PlayerLook : MonoBehaviour
     public float maxYAngle = 70.0f;
     private float rotationMouseX;
     public Transform playerBody;
+    public InventoryManager inventoryManager;
 
     void Start()
     {
@@ -14,9 +15,11 @@ public class PlayerLook : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-   
     void Update()
     {
+        if (inventoryManager.isOpen)
+            return;
+
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
