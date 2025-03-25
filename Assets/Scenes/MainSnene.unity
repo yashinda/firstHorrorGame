@@ -1445,6 +1445,7 @@ GameObject:
   - component: {fileID: 469906640}
   - component: {fileID: 469906645}
   - component: {fileID: 469906646}
+  - component: {fileID: 469906647}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1588,10 +1589,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   groundCheckRadius: 0.3
-  moveSpeed: 6
+  moveSpeed: 4
   jumpHeight: 2
   gravityValue: -9.81
   inventoryManager: {fileID: 1119274302}
+  isRunning: 0
+  maxStamina: 100
+  currentStamina: 0
 --- !u!114 &469906646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1605,6 +1609,81 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rayDistance: 5
+--- !u!114 &469906647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469906639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5afc0e5575663a840bfa295e9a786411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+--- !u!1001 &550016788
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 100000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_Name
+      value: AmmoBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.136
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 14.989
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 488040788705675664, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 393011493}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b47b4cddd05440744a98c2e507be3b46, type: 3}
 --- !u!1 &654952602
 GameObject:
   m_ObjectHideFlags: 0
@@ -3552,7 +3631,7 @@ MonoBehaviour:
   maxHealth: 20
   Player: {fileID: 469906644}
   moveSpeed: 3
-  minDistanceChase: 10
+  minDistanceChase: 20
   enemyAgent: {fileID: 1899636718}
 --- !u!65 &1899636714
 BoxCollider:
@@ -3636,13 +3715,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899636712}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.774, y: 1.118, z: 27.437}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 7.774, y: 1.118, z: 44.55}
   m_LocalScale: {x: 1, y: 2.1759, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!195 &1899636718
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3938,3 +4017,4 @@ SceneRoots:
   - {fileID: 1760474039}
   - {fileID: 346396847}
   - {fileID: 1184853460}
+  - {fileID: 550016788}

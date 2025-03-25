@@ -20,13 +20,14 @@ public class Enemy : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
 
         if (distanceToPlayer <= minDistanceChase)
-        {
             enemyAgent.SetDestination(Player.transform.position);
-            
-        }
         else
-        {
             enemyAgent.ResetPath();
+
+        if (distanceToPlayer <= 3.0f)
+        {
+            Player.GetComponent<PlayerHealth>().TakeDamage(100);
+            Destroy(gameObject);
         }
     }
 
@@ -38,5 +39,11 @@ public class Enemy : MonoBehaviour
             isDeath = true;
             Destroy(gameObject);
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+            collision.collider.gameObject.GetComponent<PlayerHealth>().TakeDamage(100);
     }
 }
