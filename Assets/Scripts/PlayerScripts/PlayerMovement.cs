@@ -12,10 +12,14 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight = 2.0f;
     public float gravityValue = -9.81f;
     public InventoryManager inventoryManager;
+    public bool isRunning = false;
+    [SerializeField] private float maxStamina = 100.0f;
+    [SerializeField] private float currentStamina;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        currentStamina = maxStamina;
     }
 
     void Update()
@@ -25,6 +29,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void CharMovement()
     {
+        if (currentStamina < maxStamina && !isRunning)
+            currentStamina += 7.0f * Time.deltaTime;
+
+        if (currentStamina >= maxStamina)
+            currentStamina = maxStamina;
+
         if (inventoryManager.isOpen)
             return;
 
@@ -34,17 +44,28 @@ public class PlayerMovement : MonoBehaviour
         playerOnGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayerMask);
 
         if (playerOnGround && playerVelocity.y < 0)
-        {
             playerVelocity.y = 0;
-        }
 
         Vector3 moveDirectional = transform.forward * vertical + transform.right * horizontal;
         controller.Move(moveDirectional * Time.deltaTime * moveSpeed);
 
         if (Input.GetButtonDown("Jump") && playerOnGround)
-        {
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && playerOnGround)
+        {
+            isRunning = true;
+            moveSpeed = 8.0f;
         }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift) && playerOnGround)
+        {
+            isRunning = false;
+            moveSpeed = 4.0f;
+        }
+
+        if (isRunning)
+            currentStamina -= 10.0f * Time.deltaTime;
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
