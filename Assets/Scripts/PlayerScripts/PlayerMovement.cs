@@ -29,15 +29,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void CharMovement()
     {
-        if (currentStamina < maxStamina && !isRunning)
+        if ((currentStamina < maxStamina && !isRunning) || inventoryManager.isOpen)
             currentStamina += 7.0f * Time.deltaTime;
 
         if (currentStamina >= maxStamina)
             currentStamina = maxStamina;
 
         if (inventoryManager.isOpen)
+        {
+            isRunning = false;
             return;
-
+        }
+            
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
