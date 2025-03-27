@@ -1258,7 +1258,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6430593413834020678, guid: ca1dc5e7113dbdf49a9d98bc82946b46, type: 3}
   playerCamera: {fileID: 1823688466}
   spawnBulletPosition: {fileID: 468009943}
-  shootForce: 20
+  shootForce: 700
   bulletsInMag: 0
   bulletsInInventory: 10
   maxBulletsInMag: 9
@@ -1764,7 +1764,7 @@ GameObject:
   - component: {fileID: 677139086}
   - component: {fileID: 677139085}
   m_Layer: 5
-  m_Name: UIInventoryPanel
+  m_Name: UIPanelInventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1803,7 +1803,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 0}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

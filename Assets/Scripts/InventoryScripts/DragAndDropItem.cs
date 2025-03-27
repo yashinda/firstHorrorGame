@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+
 public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     public InventorySlot oldSlot;
@@ -12,6 +13,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         player = GameObject.FindGameObjectWithTag("Player").transform;
         oldSlot = transform.GetComponentInParent<InventorySlot>();
     }
+
     public void OnDrag(PointerEventData eventData)
     {
         if (oldSlot.isEmpty)
@@ -32,11 +34,12 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         if (oldSlot.isEmpty)
             return;
+
         GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1f);
         GetComponentInChildren<Image>().raycastTarget = true;
-
         transform.SetParent(oldSlot.transform);
         transform.position = oldSlot.transform.position;
+
         if (eventData.pointerCurrentRaycast.gameObject.name == "UIPanelInventory")
         {
             GameObject itemObject = Instantiate(oldSlot.item.itemPrefab, player.position + Vector3.up + player.forward, Quaternion.identity);
@@ -45,10 +48,11 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         }
         else if (eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>() != null)
         {
-            ExchangeSlotData(eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>());
+            InventorySlot newSlot = eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>();
+            ExchangeSlotData(newSlot);
         }
-
     }
+
     public void NullifySlotData()
     {
         oldSlot.item = null;
@@ -58,44 +62,46 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         oldSlot.iconGO.GetComponent<Image>().sprite = null;
         oldSlot.itemAmountText.text = "";
     }
+
     void ExchangeSlotData(InventorySlot newSlot)
     {
-        ItemScriptableObject item = newSlot.item;
-        int amount = newSlot.amount;
-        bool isEmpty = newSlot.isEmpty;
-        GameObject iconGO = newSlot.iconGO;
-        TMP_Text itemAmountText = newSlot.itemAmountText;
+        ItemScriptableObject tempItem = oldSlot.item;
+        int tempAmount = oldSlot.amount;
+        bool tempIsEmpty = oldSlot.isEmpty;
+        Sprite tempSprite = oldSlot.iconGO.GetComponent<Image>().sprite;
 
-        newSlot.item = oldSlot.item;
-        newSlot.amount = oldSlot.amount;
-        if (oldSlot.isEmpty == false)
+        oldSlot.item = newSlot.item;
+        oldSlot.amount = newSlot.amount;
+        oldSlot.isEmpty = newSlot.isEmpty;
+
+        if (!newSlot.isEmpty)
         {
-            newSlot.SetIcon(oldSlot.iconGO.GetComponent<Image>().sprite);
-            newSlot.itemAmountText.text = oldSlot.amount.ToString();
+            oldSlot.iconGO.GetComponent<Image>().sprite = newSlot.iconGO.GetComponent<Image>().sprite;
+            oldSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            oldSlot.itemAmountText.text = newSlot.amount.ToString();
         }
         else
         {
-            newSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-            newSlot.iconGO.GetComponent<Image>().sprite = null;
-            newSlot.itemAmountText.text = "";
-        }
-
-        newSlot.isEmpty = oldSlot.isEmpty;
-
-        oldSlot.item = item;
-        oldSlot.amount = amount;
-        if (isEmpty == false)
-        {
-            oldSlot.SetIcon(iconGO.GetComponent<Image>().sprite);
-            oldSlot.itemAmountText.text = amount.ToString();
-        }
-        else
-        {
-            oldSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 0);
             oldSlot.iconGO.GetComponent<Image>().sprite = null;
+            oldSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 0);
             oldSlot.itemAmountText.text = "";
         }
 
-        oldSlot.isEmpty = isEmpty;
+        newSlot.item = tempItem;
+        newSlot.amount = tempAmount;
+        newSlot.isEmpty = tempIsEmpty;
+
+        if (!tempIsEmpty)
+        {
+            newSlot.iconGO.GetComponent<Image>().sprite = tempSprite;
+            newSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            newSlot.itemAmountText.text = tempAmount.ToString();
+        }
+        else
+        {
+            newSlot.iconGO.GetComponent<Image>().sprite = null;
+            newSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            newSlot.itemAmountText.text = "";
+        }
     }
 }
