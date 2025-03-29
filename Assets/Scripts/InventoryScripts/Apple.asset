@@ -19,4 +19,7 @@ MonoBehaviour:
   itemDescription: "\u042F\u0431\u043B\u043E\u043A\u043E \u043D\u0435 \u043E\u0447\u0435\u043D\u044C
     \u0441\u044B\u0442\u043D\u043E\u0435, \u043D\u043E \u0432\u043A\u0443\u0441\u043D\u043E\u0435"
   itemPrefab: {fileID: 1105760525757012, guid: bfec01bc3e4d0444dbe595b4f55c6730, type: 3}
+  isConsumeable: 1
+  changeHealth: 5
+  changeStamina: 0
   healAmount: 5

@@ -9,4 +9,10 @@ public class ItemScriptableObject : ScriptableObject
     public Sprite icon;
     public string itemDescription;
     public GameObject itemPrefab;
+    public bool isConsumeable;
+
+    [Header("Изменяемая характеристика здоровья")]
+    public float changeHealth;
+    [Header("Изменяемая характеристика выносливости")]
+    public float changeStamina;
 }

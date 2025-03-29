@@ -21,4 +21,7 @@ MonoBehaviour:
     \u043D\u043E \u043A\u0440\u043E\u043C\u0435 \u0432\u043E\u0434\u044B \u043D\u0438\u0447\u0435\u0433\u043E
     \u043D\u0435\u0442..."
   itemPrefab: {fileID: 1918357589454920, guid: 9155a26ed8a2b04438c46f09e38c706a, type: 3}
+  isConsumeable: 1
+  changeHealth: 0
+  changeStamina: 25
   staminaAmount: 25
