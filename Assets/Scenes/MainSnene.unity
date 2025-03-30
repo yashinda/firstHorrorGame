@@ -1860,7 +1860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 0
+  currentHealth: 25
 --- !u!1001 &550016788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4559,6 +4559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194ec230285064348bd413bdb61a1b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHealth: {fileID: 469906647}
   quickslotParent: {fileID: 2022629356}
   inventoryManager: {fileID: 1119274302}
   currentQuickslotID: 0
