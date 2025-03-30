@@ -2,14 +2,20 @@
 using UnityEngine.UI;
 using TMPro;
 
-public class QuickslotInventory : MonoBehaviour
+public class QuickSlotInventory : MonoBehaviour
 {
+    public PlayerHealth playerHealth;
     public Transform quickslotParent;
     public InventoryManager inventoryManager;
     public int currentQuickslotID = 0;
     public Sprite selectedSprite;
     public Sprite notSelectedSprite;
     public TMP_Text healthText;
+
+    private void Start()
+    {
+        healthText.text = playerHealth.currentHealth.ToString();
+    }
 
     void Update()
     {
@@ -59,13 +65,17 @@ public class QuickslotInventory : MonoBehaviour
 
     private void ChangeCharacteristics()
     {
-        if(int.Parse(healthText.text) + quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().item.changeHealth <= 100)
+        int healthChange = quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().item.changeHealth;
+        int staminaChange = quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().item.changeStamina;
+
+        if (int.Parse(healthText.text) + healthChange <= 100)
         {
-            float newHealth = int.Parse(healthText.text) + quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().item.changeHealth;
-            healthText.text = newHealth.ToString();
+            playerHealth.currentHealth += healthChange;
+            healthText.text = playerHealth.currentHealth.ToString();
         }
         else
         {
+            playerHealth.currentHealth = 100;
             healthText.text = "100";
         }
     }

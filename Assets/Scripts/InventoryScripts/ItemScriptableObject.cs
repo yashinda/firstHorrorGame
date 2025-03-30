@@ -12,7 +12,7 @@ public class ItemScriptableObject : ScriptableObject
     public bool isConsumeable;
 
     [Header("Изменяемая характеристика здоровья")]
-    public float changeHealth;
+    public int changeHealth;
     [Header("Изменяемая характеристика выносливости")]
-    public float changeStamina;
+    public int changeStamina;
 }
