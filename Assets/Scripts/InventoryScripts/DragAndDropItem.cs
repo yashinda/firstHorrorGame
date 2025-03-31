@@ -7,6 +7,8 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 {
     public InventorySlot oldSlot;
     private Transform player;
+    private bool isSplittingStack;
+    private bool isTakeOne;
 
     private void Start()
     {
@@ -25,6 +27,10 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         if (oldSlot.isEmpty)
             return;
+
+        isSplittingStack = Input.GetKey(KeyCode.LeftShift);
+        isTakeOne = Input.GetKey(KeyCode.LeftControl);
+
         GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.75f);
         GetComponentInChildren<Image>().raycastTarget = false;
         transform.SetParent(transform.parent.parent);
@@ -42,13 +48,70 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
         if (eventData.pointerCurrentRaycast.gameObject.name == "UIPanelInventory")
         {
-            GameObject itemObject = Instantiate(oldSlot.item.itemPrefab, player.position + Vector3.up + player.forward, Quaternion.identity);
+            int amountToDrop = isSplittingStack ? Mathf.FloorToInt(oldSlot.amount / 2f) : oldSlot.amount;
+            GameObject itemObject = Instantiate(oldSlot.item.itemPrefab, player.position + Vector3.up + player.forward, 
+                Quaternion.identity);
             itemObject.GetComponent<Item>().amount = oldSlot.amount;
-            NullifySlotData();
+
+            if (isSplittingStack)
+            {
+                oldSlot.amount -= amountToDrop;
+                oldSlot.itemAmountText.text = oldSlot.amount.ToString();
+                if (oldSlot.amount <= 0)
+                {
+                    NullifySlotData();
+                }
+            }
+            else
+            {
+                NullifySlotData();
+            }
         }
         else if (eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>() != null)
         {
             InventorySlot newSlot = eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>();
+
+            if (isSplittingStack && oldSlot.amount > 1)
+            {
+                SplitStackToSlot(newSlot);
+            }
+            else
+            {
+                ExchangeSlotData(newSlot);
+            }
+        }
+    }
+
+    private void SplitStackToSlot(InventorySlot newSlot)
+    {
+        int halfAmount = Mathf.FloorToInt(oldSlot.amount / 2f);
+
+        if (newSlot.isEmpty)
+        {
+            newSlot.item = oldSlot.item;
+            newSlot.amount = halfAmount;
+            newSlot.isEmpty = false;
+            newSlot.SetIcon(oldSlot.iconGO.GetComponent<Image>().sprite);
+            newSlot.itemAmountText.text = halfAmount.ToString();
+
+            oldSlot.amount -= halfAmount;
+            oldSlot.itemAmountText.text = oldSlot.amount.ToString();
+        }
+        else if (newSlot.item = oldSlot.item)
+        {
+            newSlot.amount += halfAmount;
+            newSlot.itemAmountText.text = newSlot.amount.ToString();
+
+            oldSlot.amount -= halfAmount;
+            oldSlot.itemAmountText.text = oldSlot.amount.ToString();
+
+            if (oldSlot.amount <= 0)
+            {
+                NullifySlotData();
+            }
+        }
+        else
+        {
             ExchangeSlotData(newSlot);
         }
     }
