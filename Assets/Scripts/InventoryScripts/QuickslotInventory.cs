@@ -5,21 +5,27 @@ using TMPro;
 public class QuickSlotInventory : MonoBehaviour
 {
     public PlayerHealth playerHealth;
+    public PlayerMovement playerMovement;
     public Transform quickslotParent;
     public InventoryManager inventoryManager;
     public int currentQuickslotID = 0;
     public Sprite selectedSprite;
     public Sprite notSelectedSprite;
     public TMP_Text healthText;
+    public TMP_Text staminaText;
 
     private void Start()
     {
         healthText.text = playerHealth.currentHealth.ToString();
+        staminaText.text = Mathf.RoundToInt(playerMovement.currentStamina).ToString();
     }
 
     void Update()
     {
-        for(int i = 0; i < quickslotParent.childCount; i++)
+        healthText.text = playerHealth.currentHealth.ToString();
+        staminaText.text = Mathf.RoundToInt(playerMovement.currentStamina).ToString();
+
+        for (int i = 0; i < quickslotParent.childCount; i++)
         {
             if (Input.GetKeyDown((i + 1).ToString())) {
                 if (currentQuickslotID == i)
@@ -71,12 +77,21 @@ public class QuickSlotInventory : MonoBehaviour
         if (int.Parse(healthText.text) + healthChange <= 100)
         {
             playerHealth.currentHealth += healthChange;
-            healthText.text = playerHealth.currentHealth.ToString();
         }
         else
         {
             playerHealth.currentHealth = 100;
             healthText.text = "100";
+        }
+
+        if (int.Parse(staminaText.text) + staminaChange <= 100)
+        {
+            playerMovement.currentStamina += staminaChange;
+        }
+        else
+        {
+            playerMovement.currentStamina = 100;
+            staminaText.text = "100";
         }
     }
 }
