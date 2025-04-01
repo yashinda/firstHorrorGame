@@ -48,30 +48,48 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
         if (eventData.pointerCurrentRaycast.gameObject.name == "UIPanelInventory")
         {
-            int amountToDrop = isSplittingStack ? Mathf.FloorToInt(oldSlot.amount / 2f) : oldSlot.amount;
-            GameObject itemObject = Instantiate(oldSlot.item.itemPrefab, player.position + Vector3.up + player.forward, 
-                Quaternion.identity);
-            itemObject.GetComponent<Item>().amount = oldSlot.amount;
-
-            if (isSplittingStack)
-            {
-                oldSlot.amount -= amountToDrop;
-                oldSlot.itemAmountText.text = oldSlot.amount.ToString();
-                if (oldSlot.amount <= 0)
-                {
-                    NullifySlotData();
-                }
-            }
-            else
-            {
-                NullifySlotData();
-            }
+            HandleDropToWorld();
         }
         else if (eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>() != null)
         {
-            InventorySlot newSlot = eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>();
+            HandleDropToSlot(eventData);
+        }
+    }
 
-            if (isSplittingStack && oldSlot.amount > 1)
+    private void HandleDropToWorld()
+    {
+        int amountToDrop = GetAmountToTransfer();
+        GameObject itemObject = Instantiate(oldSlot.item.itemPrefab, player.position + Vector3.up + player.forward,
+            Quaternion.identity);
+        itemObject.GetComponent<Item>().amount = amountToDrop;
+
+        oldSlot.amount -= amountToDrop;
+        oldSlot.itemAmountText.text = oldSlot.amount.ToString();
+
+        if (oldSlot.amount <= 0)
+        {
+            NullifySlotData();
+        }
+    }
+    private void HandleDropToSlot(PointerEventData eventData)
+    {
+        InventorySlot newSlot = eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>();
+
+        if (isTakeOne)
+        {
+            if (CanTransferItems(newSlot, 1))
+            {
+                TakeOneFromSlot(newSlot);
+            }
+            else
+            {
+                ExchangeSlotData(newSlot);
+            }
+        }
+        else if (isSplittingStack)
+        {
+            int halfAmount = Mathf.FloorToInt(oldSlot.amount / 2f);
+            if (CanTransferItems(newSlot, halfAmount))
             {
                 SplitStackToSlot(newSlot);
             }
@@ -80,39 +98,71 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                 ExchangeSlotData(newSlot);
             }
         }
+        else
+        {
+            ExchangeSlotData(newSlot);
+        }
+    }
+
+    private bool CanTransferItems(InventorySlot targetSlot, int amount)
+    {
+        if (targetSlot.isEmpty)
+            return true;
+        if (targetSlot.item != oldSlot.item)
+            return false;
+
+        return (targetSlot.amount + amount) <= targetSlot.item.maximumAmount;
+    }
+
+    private int GetAmountToTransfer()
+    {
+        if (isTakeOne) return Mathf.Min(1, oldSlot.amount);
+        if (isSplittingStack) return Mathf.FloorToInt(oldSlot.amount / 2f);
+        return oldSlot.amount;
     }
 
     private void SplitStackToSlot(InventorySlot newSlot)
     {
-        int halfAmount = Mathf.FloorToInt(oldSlot.amount / 2f);
+        int amountToTransfer = Mathf.FloorToInt(oldSlot.amount / 2f);
+        TransferItemsToSlot(newSlot, amountToTransfer);
+    }
+
+    private void TakeOneFromSlot(InventorySlot newSlot)
+    {
+        TransferItemsToSlot(newSlot, 1);
+    }
+
+    private void TransferItemsToSlot(InventorySlot newSlot, int amount)
+    {
+        amount = Mathf.Min(amount, oldSlot.amount);
 
         if (newSlot.isEmpty)
         {
             newSlot.item = oldSlot.item;
-            newSlot.amount = halfAmount;
+            newSlot.amount = amount;
             newSlot.isEmpty = false;
             newSlot.SetIcon(oldSlot.iconGO.GetComponent<Image>().sprite);
-            newSlot.itemAmountText.text = halfAmount.ToString();
-
-            oldSlot.amount -= halfAmount;
+            newSlot.itemAmountText.text = amount.ToString();
+            oldSlot.amount -= amount;
             oldSlot.itemAmountText.text = oldSlot.amount.ToString();
         }
-        else if (newSlot.item = oldSlot.item)
+        else if (newSlot.item == oldSlot.item)
         {
-            newSlot.amount += halfAmount;
+            newSlot.amount += amount;
             newSlot.itemAmountText.text = newSlot.amount.ToString();
-
-            oldSlot.amount -= halfAmount;
-            oldSlot.itemAmountText.text = oldSlot.amount.ToString();
-
-            if (oldSlot.amount <= 0)
-            {
-                NullifySlotData();
-            }
         }
         else
         {
             ExchangeSlotData(newSlot);
+            return;
+        }
+
+        oldSlot.amount -= amount;
+        oldSlot.itemAmountText.text = oldSlot.amount.ToString();
+
+        if (oldSlot.amount <= 0)
+        {
+            NullifySlotData();
         }
     }
 
