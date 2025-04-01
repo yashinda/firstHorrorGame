@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public InventoryManager inventoryManager;
     public bool isRunning = false;
     [SerializeField] private float maxStamina = 100.0f;
-    [SerializeField] private float currentStamina;
+    public float currentStamina;
 
     void Start()
     {

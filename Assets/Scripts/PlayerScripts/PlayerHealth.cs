@@ -6,11 +6,6 @@ public class PlayerHealth : MonoBehaviour
     public int currentHealth;
     private bool isDeath = false;
 
-    private void Start()
-    {
-        currentHealth = maxHealth;
-    }
-
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
