@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -10,6 +11,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int bulletsInInventory = 100;
     [SerializeField] private int maxBulletsInMag = 9;
     [SerializeField] private int maxBulletsInInventory = 100;
+    [SerializeField] private TMP_Text currentAmmoText;
+    [SerializeField] private TMP_Text ammoInventoryText;
     public InventoryManager inventoryManager;
 
     private void Start()
@@ -28,6 +31,9 @@ public class Weapon : MonoBehaviour
         {
             Reload();
         }
+
+        currentAmmoText.text = bulletsInMag.ToString();
+        ammoInventoryText.text = bulletsInInventory.ToString();
     }
 
     private void Shoot()
