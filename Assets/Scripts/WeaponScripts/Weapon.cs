@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public PistolSounds pistolSounds;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Transform spawnBulletPosition;
     [SerializeField] private float shootForce;
-    [SerializeField] private int bulletsInMag;
+    public int bulletsInMag;
     [SerializeField] private int bulletsInInventory = 100;
     [SerializeField] private int maxBulletsInMag = 9;
     [SerializeField] private int maxBulletsInInventory = 100;
@@ -26,6 +27,10 @@ public class Weapon : MonoBehaviour
         {
             Shoot();
         }
+        else if (Input.GetMouseButtonDown(0) && bulletsInMag == 0 && !inventoryManager.isOpen)
+        {
+            pistolSounds.EmptyMag();
+        }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -41,6 +46,7 @@ public class Weapon : MonoBehaviour
         Debug.Log("Пуля вылетела");
 
         bulletsInMag--;
+        pistolSounds.Shooting();
 
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -62,6 +68,7 @@ public class Weapon : MonoBehaviour
 
     private void Reload()
     {
+        pistolSounds.Reloading();
         int reloadAmount = maxBulletsInMag - bulletsInMag;
         reloadAmount = (bulletsInInventory - reloadAmount) >= 0 ? reloadAmount : bulletsInInventory;
         bulletsInMag += reloadAmount;
