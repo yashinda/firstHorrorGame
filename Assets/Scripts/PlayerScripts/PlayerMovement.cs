@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController controller;
-    private Vector3 playerVelocity;
+    public Vector3 playerVelocity;
     public bool playerOnGround;
     public Transform groundCheck;
     public LayerMask groundLayerMask;
@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isRunning = false;
     [SerializeField] private float maxStamina = 100.0f;
     public float currentStamina;
+    public bool isMoving;
 
     void Start()
     {
@@ -38,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
         if (inventoryManager.isOpen)
         {
             isRunning = false;
+            isMoving = false;
             return;
         }
             
@@ -48,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerOnGround && playerVelocity.y < 0)
             playerVelocity.y = 0;
+
+        isMoving = (Mathf.Abs(horizontal) > 0.1f || Mathf.Abs(vertical) > 0.1f) && playerOnGround;
 
         Vector3 moveDirectional = transform.forward * vertical + transform.right * horizontal;
         controller.Move(moveDirectional * Time.deltaTime * moveSpeed);
