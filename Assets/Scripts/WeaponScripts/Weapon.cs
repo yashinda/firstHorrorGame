@@ -48,14 +48,14 @@ public class Weapon : MonoBehaviour
         bulletsInMag--;
         pistolSounds.Shooting();
 
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
         RaycastHit hit;
 
         Vector3 targetPoint;
         if (Physics.Raycast(ray, out hit))
             targetPoint = hit.point;
         else
-            targetPoint = ray.GetPoint(100.0f);
+            targetPoint = ray.GetPoint(150.0f);
 
         Vector3 directionBullet = targetPoint - spawnBulletPosition.position;
 

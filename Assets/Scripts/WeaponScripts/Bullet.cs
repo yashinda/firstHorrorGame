@@ -2,20 +2,23 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float bulletLife = 3.0f;
-    [SerializeField] private int damageAmount = 5;
+    public float bulletLife = 2.0f;
+    public int damageAmount = 10;
 
     private void Awake()
     {
         Destroy(gameObject, bulletLife);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision.gameObject.tag);
+
+        Destroy(gameObject);
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
             collision.gameObject.GetComponent<Enemy>().TakeDamage(damageAmount);
         }
-        Destroy(gameObject);
     }
 }

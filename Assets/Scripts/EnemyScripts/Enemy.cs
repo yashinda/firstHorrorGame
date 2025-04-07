@@ -1,49 +1,57 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float maxHealth = 20f;
-    [SerializeField] private Transform Player;
-    [SerializeField] private float moveSpeed = 3f;
-    [SerializeField] private float minDistanceChase = 10f;
-    [SerializeField] private NavMeshAgent enemyAgent;
+    public int HP = 20;
+    private bool isHit = false;
     private bool isDeath = false;
+    public Animator animator;
+    private Vector3 velocity;
 
-
-    private void Start()
+    void Start()
     {
-        enemyAgent.speed = moveSpeed;
+        animator = GetComponent<Animator>();
     }
+
     private void Update()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
-
-        if (distanceToPlayer <= minDistanceChase)
-            enemyAgent.SetDestination(Player.transform.position);
-        else
-            enemyAgent.ResetPath();
-
-        if (distanceToPlayer <= 3.0f)
-        {
-            Player.GetComponent<PlayerHealth>().TakeDamage(100);
-            Destroy(gameObject);
-        }
+        Idle();
     }
 
     public void TakeDamage(int damageAmount)
     {
-        maxHealth -= damageAmount;
-        if (maxHealth <= 0)
+        HP -= damageAmount;
+
+        if (HP <= 0)
         {
+            animator.SetTrigger("Death");
+            GetComponent<Collider>().enabled = false;
             isDeath = true;
-            Destroy(gameObject);
+        }
+        else
+        {
+            animator.SetTrigger("Hit");
+            isHit = true;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void Idle()
     {
-        if (collision.collider.CompareTag("Player"))
-            collision.collider.gameObject.GetComponent<PlayerHealth>().TakeDamage(100);
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (stateInfo.IsName("ZombieHit") && stateInfo.normalizedTime >= 1.0f)
+        {
+            isHit = false;
+        }
+
+
+        if (velocity.y == 0 && velocity.x == 0 && velocity.z == 0 && (!isDeath || !isHit))
+        {
+            animator.SetBool("Idle", true);
+        }
+        else
+        {
+            animator.SetBool("Idle", false);
+        }
     }
 }
