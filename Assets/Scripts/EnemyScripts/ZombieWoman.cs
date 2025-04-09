@@ -3,7 +3,6 @@ using UnityEngine;
 public class ZombieWoman : Enemy
 {
     private bool isHit = false;
-    private bool isDeath = false;
     public Animator animator;
     private Vector3 velocity;
 
@@ -12,8 +11,9 @@ public class ZombieWoman : Enemy
         animator = GetComponent<Animator>();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         Idle();
     }
 
@@ -22,8 +22,8 @@ public class ZombieWoman : Enemy
         if (HP <= 0)
         {
             animator.SetTrigger("Death");
+            gameObject.GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<Collider>().enabled = false;
-            isDeath = true;
         }
         else
         {
@@ -41,8 +41,7 @@ public class ZombieWoman : Enemy
             isHit = false;
         }
 
-
-        if (velocity.y == 0 && velocity.x == 0 && velocity.z == 0 && (!isDeath || !isHit))
+        if (!isChasing && (!isDeath || !isHit))
         {
             animator.SetBool("Idle", true);
         }
