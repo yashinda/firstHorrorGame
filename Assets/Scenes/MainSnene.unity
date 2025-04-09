@@ -4072,20 +4072,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638354754}
   m_CullTransparentMesh: 1
---- !u!114 &1691917203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2767331993798663347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44cfa3e3e132e0f4aa6fcf0ca1b07d99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HP: 20
-  animator: {fileID: 4068815551967198371}
 --- !u!1001 &1760474039
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6729,9 +6715,8 @@ GameObject:
   - component: {fileID: 919132147989086908}
   - component: {fileID: 919132147989086909}
   - component: {fileID: 919132147989086910}
-  - component: {fileID: 919132147989086911}
   m_Layer: 0
-  m_Name: Survivor A Lusth
+  m_Name: Zombie Man
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6759,8 +6744,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -6785,29 +6770,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.03, z: 0.49}
   m_Center: {x: 0, y: 1.05, z: 0}
---- !u!95 &919132147989086910
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147989086907}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f5f2bb26ea9c5b149b633a10027eb0ec, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &919132147989086911
+--- !u!114 &919132147989086910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6816,11 +6779,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 919132147989086907}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44cfa3e3e132e0f4aa6fcf0ca1b07d99, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a88a6422cabd9c4fad0ba10073a904b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HP: 20
-  animator: {fileID: 919132147989086910}
 --- !u!4 &939741304050180879
 Transform:
   m_ObjectHideFlags: 0
@@ -11600,8 +11562,8 @@ GameObject:
   - component: {fileID: 3016448502816228277}
   - component: {fileID: 4436285953474865646}
   - component: {fileID: 4068815551967198371}
-  - component: {fileID: 1691917203}
   - component: {fileID: 4436285953474865647}
+  - component: {fileID: 4436285953474865648}
   m_Layer: 0
   m_Name: Zombie Woman
   m_TagString: Enemy
@@ -15590,6 +15552,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.74, z: 0.55}
   m_Center: {x: 0, y: 0.82, z: 0.16}
+--- !u!114 &4436285953474865648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2767331993798663347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c546de5ca7174e5478c596ead129caff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 20
+  animator: {fileID: 4068815551967198371}
 --- !u!1 &4441848307451596103
 GameObject:
   m_ObjectHideFlags: 0
