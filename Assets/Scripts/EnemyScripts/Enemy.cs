@@ -1,57 +1,67 @@
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     public int HP = 20;
-    private bool isHit = false;
-    private bool isDeath = false;
-    public Animator animator;
-    private Vector3 velocity;
+    public bool isDeath = false;
 
-    void Start()
+    public Transform player;
+    public float moveSpeed = 3.0f;
+
+    public float minDistanceChase = 25.0f;
+    public NavMeshAgent agent;
+
+    public new Rigidbody rigidbody;
+
+    protected private bool isChasing = false;
+
+    protected virtual void Update()
     {
-        animator = GetComponent<Animator>();
+        if (!isDeath)
+        {
+            ChasePlayer();
+        }
+        else
+        {
+            isChasing = false;
+            agent.ResetPath();
+        }
     }
 
-    private void Update()
+    private void ChasePlayer()
     {
-        Idle();
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= minDistanceChase)
+        {
+            agent.SetDestination(player.position);
+            isChasing = true;
+        }
+        else
+        {
+            agent.ResetPath();
+            isChasing = false;
+        }
     }
 
     public void TakeDamage(int damageAmount)
     {
         HP -= damageAmount;
 
+        if (gameObject.GetComponent<ZombieWoman>() != null)
+        {
+            gameObject.GetComponent<ZombieWoman>().TakeHit();
+        }
+        
+        if (gameObject.GetComponent<ZombieMan>() != null)
+        {
+            gameObject.GetComponent<ZombieMan>().TakeHit();
+        }
+
         if (HP <= 0)
         {
-            animator.SetTrigger("Death");
-            GetComponent<Collider>().enabled = false;
             isDeath = true;
-        }
-        else
-        {
-            animator.SetTrigger("Hit");
-            isHit = true;
-        }
-    }
-
-    private void Idle()
-    {
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
-        if (stateInfo.IsName("ZombieHit") && stateInfo.normalizedTime >= 1.0f)
-        {
-            isHit = false;
-        }
-
-
-        if (velocity.y == 0 && velocity.x == 0 && velocity.z == 0 && (!isDeath || !isHit))
-        {
-            animator.SetBool("Idle", true);
-        }
-        else
-        {
-            animator.SetBool("Idle", false);
-        }
+        }   
     }
 }

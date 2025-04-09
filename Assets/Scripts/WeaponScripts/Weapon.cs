@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour
             pistolSounds.EmptyMag();
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && bulletsInInventory != 0 && !inventoryManager.isOpen)
         {
             Reload();
         }
@@ -43,8 +43,6 @@ public class Weapon : MonoBehaviour
 
     private void Shoot()
     {
-        Debug.Log("Пуля вылетела");
-
         bulletsInMag--;
         pistolSounds.Shooting();
 
