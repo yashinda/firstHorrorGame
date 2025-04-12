@@ -4,7 +4,6 @@ public class ZombieWoman : Enemy
 {
     private bool isHit = false;
     public Animator animator;
-    private Vector3 velocity;
 
     void Start()
     {
@@ -15,6 +14,8 @@ public class ZombieWoman : Enemy
     {
         base.Update();
         Idle();
+        Walking();
+        Attack();
     }
 
     public void TakeHit()
@@ -41,13 +42,37 @@ public class ZombieWoman : Enemy
             isHit = false;
         }
 
-        if (!isChasing && (!isDeath || !isHit))
+        if (!isChasing && !isAttacking && (!isDeath || !isHit))
         {
             animator.SetBool("Idle", true);
         }
         else
         {
             animator.SetBool("Idle", false);
+        }
+    }
+
+    private void Walking()
+    {
+        if (isChasing && !isAttacking)
+        {
+            animator.SetBool("Walk", true);
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
+        }
+    }
+
+    private void Attack()
+    {
+        if (isAttacking)
+        {
+            animator.SetBool("Attack", true);
+        }
+        else
+        {
+            animator.SetBool("Attack", false);
         }
     }
 }
