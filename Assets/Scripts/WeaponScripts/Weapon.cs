@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour
             pistolSounds.EmptyMag();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && bulletsInInventory != 0 && !inventoryManager.isOpen)
+        if (Input.GetKeyDown(KeyCode.R) && bulletsInMag < maxBulletsInMag && bulletsInInventory != 0 && !inventoryManager.isOpen)
         {
             Reload();
         }

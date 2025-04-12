@@ -7,19 +7,22 @@ public abstract class Enemy : MonoBehaviour
     public bool isDeath = false;
 
     public Transform player;
-    public float moveSpeed = 3.0f;
+    public float moveSpeed = 2.0f;
 
+    private float distanceToPlayer;
     public float minDistanceChase = 25.0f;
     public NavMeshAgent agent;
 
     public new Rigidbody rigidbody;
 
     protected private bool isChasing = false;
+    protected private bool isAttacking = false;
 
     protected virtual void Update()
     {
         if (!isDeath)
         {
+            distanceToPlayer = Vector3.Distance(transform.position, player.position);
             ChasePlayer();
         }
         else
@@ -31,8 +34,6 @@ public abstract class Enemy : MonoBehaviour
 
     private void ChasePlayer()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
         if (distanceToPlayer <= minDistanceChase)
         {
             agent.SetDestination(player.position);
@@ -42,6 +43,15 @@ public abstract class Enemy : MonoBehaviour
         {
             agent.ResetPath();
             isChasing = false;
+        }
+
+        if (distanceToPlayer <= 2.0f)
+        {
+            isAttacking = true;
+        }
+        else
+        {
+            isAttacking = false;
         }
     }
 
