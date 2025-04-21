@@ -5,6 +5,13 @@ public class ZombieWoman : Enemy
     private bool isHit = false;
     public Animator animator;
 
+    public Transform attackHand;
+    public float attackRange = 0.5f;
+    public LayerMask playerLayer;
+
+    private bool hasAttacked = false;
+
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -73,6 +80,17 @@ public class ZombieWoman : Enemy
         else
         {
             animator.SetBool("Attack", false);
+        }
+    }
+
+    public void AttackPlayer()
+    {
+        Collider[] hitPlayer = Physics.OverlapSphere(attackHand.position, attackRange, playerLayer);
+
+        foreach (Collider player in hitPlayer)
+        {
+            Debug.Log("Detected hit");
+            player.GetComponent<PlayerHealth>().TakeDamage(10);
         }
     }
 }
