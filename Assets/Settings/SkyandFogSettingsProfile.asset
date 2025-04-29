@@ -104,7 +104,7 @@ MonoBehaviour:
     m_Value: 150
   denoisingMode:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 0
   anisotropy:
     m_OverrideState: 1
     m_Value: 0.65
@@ -1089,7 +1089,7 @@ MonoBehaviour:
     m_Value: 1
   fixedExposure:
     m_OverrideState: 1
-    m_Value: 13.5
+    m_Value: 15
   compensation:
     m_OverrideState: 1
     m_Value: 0

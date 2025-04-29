@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HDRP High Fidelity
   m_EditorClassIdentifier: 
   m_RenderPipelineSettings:
-    supportShadowMask: 0
+    supportShadowMask: 1
     supportSSR: 0
     supportSSRTransparent: 0
     supportSSAO: 1
@@ -121,31 +121,31 @@ MonoBehaviour:
       directionalShadowFilteringQuality: 2
       areaShadowFilteringQuality: 0
       punctualLightShadowAtlas:
-        shadowAtlasResolution: 4096
+        shadowAtlasResolution: 1024
         shadowAtlasDepthBits: 16
         useDynamicViewportRescale: 1
       areaLightShadowAtlas:
-        shadowAtlasResolution: 4096
+        shadowAtlasResolution: 2048
         shadowAtlasDepthBits: 16
         useDynamicViewportRescale: 0
-      cachedPunctualLightShadowAtlas: 4096
-      cachedAreaLightShadowAtlas: 4096
+      cachedPunctualLightShadowAtlas: 1024
+      cachedAreaLightShadowAtlas: 2048
       allowDirectionalMixedCachedShadows: 0
       shadowResolutionDirectional:
-        m_Values: 00020000000400000008000000100000
+        m_Values: 00020000000400000008000000080000
         m_SchemaId:
           m_Id: With4Levels
       shadowResolutionPunctual:
-        m_Values: 00020000000400000008000000100000
+        m_Values: 00020000000200000002000000020000
         m_SchemaId:
           m_Id: With4Levels
       shadowResolutionArea:
-        m_Values: 00020000000400000008000000100000
+        m_Values: 00020000000400000008000000080000
         m_SchemaId:
           m_Id: With4Levels
-      maxDirectionalShadowMapResolution: 4096
+      maxDirectionalShadowMapResolution: 2048
       maxPunctualShadowMapResolution: 4096
-      maxAreaShadowMapResolution: 4096
+      maxAreaShadowMapResolution: 2048
       supportScreenSpaceShadows: 0
       maxScreenSpaceShadowSlots: 4
       screenSpaceShadowBufferFormat: 48
@@ -226,7 +226,7 @@ MonoBehaviour:
       ChromaticAberrationMaxSamples: 03000000060000000c000000
     lightSettings:
       useContactShadow:
-        m_Values: 000101
+        m_Values: 010100
         m_SchemaId:
           m_Id: 
     maximumLODLevel:
